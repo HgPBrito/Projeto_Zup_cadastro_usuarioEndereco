@@ -17,12 +17,9 @@ import queroserzupper.cadastroenderecos.model.Usuario;
 import queroserzupper.cadastroenderecos.repository.EnderecoRepository;
 import queroserzupper.cadastroenderecos.repository.UsuarioRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/enderecos")
-@CrossOrigin("*") //Restringe o acesso a API por um determinado domínio
+@CrossOrigin("*") // Restringe o acesso a API por um determinado domínio
 public class EnderecoController {
 
 	@Autowired
@@ -41,7 +38,7 @@ public class EnderecoController {
 		Endereco endereco = EnderecoMapping.paraEndereco(enderecoRequest, usuario);
 		DadosCep dadosCep = cepClient.buscaCep(enderecoRequest.getCep());
 
-		if(dadosCep != null ){
+		if (dadosCep != null) {
 			endereco.setEstado(dadosCep.getUf());
 			endereco.setCidade(dadosCep.getLocalidade());
 			endereco.setBairro(dadosCep.getBairro());
@@ -50,7 +47,7 @@ public class EnderecoController {
 		}
 		Endereco enderecoSalvo = enderecoRepository.save(endereco);
 
-		EnderecoResponse enderecoResponse= EnderecoMapping.paraEnderecoResponse(enderecoSalvo);
+		EnderecoResponse enderecoResponse = EnderecoMapping.paraEnderecoResponse(enderecoSalvo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(enderecoResponse);
 	}
 }

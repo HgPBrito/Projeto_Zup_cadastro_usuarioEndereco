@@ -1,7 +1,5 @@
 package queroserzupper.cadastroenderecos.api.response;
 
-import queroserzupper.cadastroenderecos.model.Usuario;
-
 public class EnderecoResponse {
 
     private long id;
@@ -15,7 +13,8 @@ public class EnderecoResponse {
     private Long id_usuario;
     private String nome_usuario;
 
-    public EnderecoResponse(long id, String estado, String cidade, String cep, String bairro, String logradouro, String complemento, String numero, Long id_usuario, String nome_usuario) {
+    public EnderecoResponse(long id, String estado, String cidade, String cep, String bairro, String logradouro,
+            String complemento, String numero, Long id_usuario, String nome_usuario) {
         this.id = id;
         this.estado = estado;
         this.cidade = cidade;
