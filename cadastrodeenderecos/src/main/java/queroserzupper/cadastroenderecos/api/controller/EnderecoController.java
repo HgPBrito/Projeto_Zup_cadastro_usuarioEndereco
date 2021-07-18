@@ -35,7 +35,9 @@ public class EnderecoController {
 	public ResponseEntity<EnderecoResponse> cadastraEndereco(@Valid @RequestBody EnderecoRequest enderecoRequest) {
 
 		Usuario usuario = usuarioRepository.getOne(enderecoRequest.getId_usuario());
-		Endereco endereco = EnderecoMapping.paraEndereco(enderecoRequest, usuario);
+		Endereco endereco = EnderecoMapping.INSTANCE.toEndereco(enderecoRequest);
+		endereco.setUsuario(usuario);
+
 		DadosCep dadosCep = cepClient.buscaCep(enderecoRequest.getCep());
 
 		if (dadosCep != null) {
@@ -45,9 +47,9 @@ public class EnderecoController {
 			endereco.setLogradouro(dadosCep.getLogradouro());
 			endereco.setComplemento(dadosCep.getComplemento());
 		}
-		Endereco enderecoSalvo = enderecoRepository.save(endereco);
 
-		EnderecoResponse enderecoResponse = EnderecoMapping.paraEnderecoResponse(enderecoSalvo);
+		Endereco enderecoSalvo = enderecoRepository.save(endereco);
+		EnderecoResponse enderecoResponse = EnderecoMapping.INSTANCE.toEnderecoResponse(enderecoSalvo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(enderecoResponse);
 	}
 }

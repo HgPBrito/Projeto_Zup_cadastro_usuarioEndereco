@@ -10,11 +10,9 @@ public class EnderecoResponse {
     private String logradouro;
     private String complemento;
     private String numero;
-    private Long id_usuario;
-    private String nome_usuario;
 
     public EnderecoResponse(long id, String estado, String cidade, String cep, String bairro, String logradouro,
-            String complemento, String numero, Long id_usuario, String nome_usuario) {
+            String complemento, String numero) {
         this.id = id;
         this.estado = estado;
         this.cidade = cidade;
@@ -23,8 +21,6 @@ public class EnderecoResponse {
         this.logradouro = logradouro;
         this.complemento = complemento;
         this.numero = numero;
-        this.id_usuario = id_usuario;
-        this.nome_usuario = nome_usuario;
     }
 
     public long getId() {
@@ -57,13 +53,5 @@ public class EnderecoResponse {
 
     public String getNumero() {
         return numero;
-    }
-
-    public Long getId_usuario() {
-        return id_usuario;
-    }
-
-    public String getNome_usuario() {
-        return nome_usuario;
     }
 }

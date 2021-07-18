@@ -3,37 +3,16 @@ package queroserzupper.cadastroenderecos.api.mapping;
 import queroserzupper.cadastroenderecos.api.request.EnderecoRequest;
 import queroserzupper.cadastroenderecos.api.response.EnderecoResponse;
 import queroserzupper.cadastroenderecos.model.Endereco;
-import queroserzupper.cadastroenderecos.model.Usuario;
 
-public class EnderecoMapping {
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-    public static Endereco paraEndereco(EnderecoRequest enderecoRequest, Usuario usuario){
-        Endereco endereco = new Endereco();
-        endereco.setId(enderecoRequest.getId());
-        endereco.setUsuario(usuario);
-        endereco.setCep(enderecoRequest.getCep());
-        endereco.setEstado(enderecoRequest.getEstado());
-        endereco.setCidade(enderecoRequest.getCidade());
-        endereco.setBairro(enderecoRequest.getBairro());
-        endereco.setLogradouro(enderecoRequest.getLogradouro());
-        endereco.setNumero(enderecoRequest.getNumero());
-        endereco.setComplemento(enderecoRequest.getComplemento());
-        return endereco;
-    }
+@Mapper(componentModel = "spring")
+public interface EnderecoMapping {
 
-    public static EnderecoResponse paraEnderecoResponse(Endereco endereco){
-        EnderecoResponse enderecoResponse = new EnderecoResponse(
-                endereco.getId(),
-                endereco.getEstado(),
-                endereco.getCidade(),
-                endereco.getCep(),
-                endereco.getBairro(),
-                endereco.getLogradouro(),
-                endereco.getComplemento(),
-                endereco.getNumero(),
-                endereco.getUsuario().getId(),
-                endereco.getUsuario().getNome()
-        );
-        return enderecoResponse;
-    }
+    public static final EnderecoMapping INSTANCE = Mappers.getMapper(EnderecoMapping.class);
+
+    public Endereco toEndereco(EnderecoRequest enderecoRequest);
+
+    public abstract EnderecoResponse toEnderecoResponse(Endereco endereco);
 }

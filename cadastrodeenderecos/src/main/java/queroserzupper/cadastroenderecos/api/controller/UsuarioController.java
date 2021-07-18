@@ -1,6 +1,5 @@
 package queroserzupper.cadastroenderecos.api.controller;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,28 +16,30 @@ import queroserzupper.cadastroenderecos.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin("*") //Restringe o acesso a API por um determinado domínio
+@CrossOrigin("*") // Restringe o acesso a API por um determinado domínio
 public class UsuarioController {
 
 	@Autowired
 	public UsuarioRepository repository;
-	
-	@GetMapping(path = {"/{id}"})
+
+	@GetMapping(path = { "/{id}" })
 	public ResponseEntity<List<UsuarioResponse>> listarPorId(@PathVariable("id") Long id) {
 		Optional<Usuario> resp = repository.findById(id);
 
 		if (resp.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} else {
-			return ResponseEntity.ok(resp.stream().map(u -> UsuarioMapping.paraUsuarioResponse(u)).collect(Collectors.toList()));
+
+			return ResponseEntity.ok(
+					resp.stream().map(u -> UsuarioMapping.INSTANCE.toUsuarioResponse(u)).collect(Collectors.toList()));
 		}
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<UsuarioResponse> cadastraUsuario(@Valid @RequestBody UsuarioRequest usuarioRequest) {
-		Usuario usuario = UsuarioMapping.paraUsuario(usuarioRequest);
+		Usuario usuario = UsuarioMapping.INSTANCE.toUsuario(usuarioRequest);
 		Usuario usuarioSalvo = repository.save(usuario);
-		UsuarioResponse usuarioResponse = UsuarioMapping.paraUsuarioResponse(usuarioSalvo);
+		UsuarioResponse usuarioResponse = UsuarioMapping.INSTANCE.toUsuarioResponse(usuarioSalvo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
 	}
 }
